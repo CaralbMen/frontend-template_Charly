@@ -1,36 +1,50 @@
+import {api} from '../services/api';
 import { useState, useEffect } from 'react';
-import { api } from '../services/api';
 
+const Productos= ()=>{
+    const [listaProductos, setListaProductos]= useState([]);
+    const [carganding, setCarganding]= useState(true);
 
-const Productos = () => {
-    const [productos, setProductos]= useState([]);
-
-    const lista_api = async()=>{
-        try{
-            const lista = await api.get('/productos/');
-            setProductos(lista.data);
-            console.log(productos);
-        }catch(error){
-            console.error('Error al obtener productos:', error);
-        }
-    }
     useEffect(()=>{
-        lista_api();
-    },[]);
+        const obtener=async()=>{
+            console.log('Por obtener productos..');
+            try{
+                const datos= await api.get('productos');
+                setListaProductos(datos);
+                setCarganding(false);
+                console.log("Datos Cargados");
+                console.log(listaProductos.datos);
+            }catch(e){
+                console.log(`Error: ${e}`);
+            }
+        }
+        obtener();
+    },[])
+
     return(
         <div>
-            <h1 className="text-3xl font-bold text-slate-800">Productos</h1>
-            <p className="mt-4 text-slate-600">Bienvenido al sistema. Selecciona una opción del menú.</p>
-            {productos.map((producto) => (
-            <div key={producto.id} className="p-4 bg-white rounded shadow">
-                <h2 className="text-xl font-semibold text-slate-800">{producto.nombre}</h2>
-                <p className="text-slate-600">{producto.descripcion}</p>
-                <p className="text-slate-800 font-bold">${producto.precio}</p>
-            </div>
-            ))}
+            {carganding?(
+                <h1>Cargando...</h1>
+            ):(
+                <>
+                    <h1>Productos</h1>
+                    <div className='productos'>
+                        {listaProductos.map((producto)=>(
+                            <div className='card'>
+                                <center>
+                                    <h2>{producto.nombre}</h2>
+                                    <img src={producto.imagen_url} alt={producto.descripcion} />
+                                    {/* <p>{producto.descripcion}</p> */}
+                                    <p>Precio: {producto.precio}</p>
+                                </center>
+                            </div>
+                            
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
-    );
-  
-};
+    )
+}
 
 export default Productos;

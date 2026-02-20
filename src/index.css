@@ -5,3 +5,26 @@
 body {
   @apply bg-slate-50 text-slate-900;
 }
+.productos{
+  display: flex;
+  flex-flow: wrap;
+  /* justify-content: space-evenly; */
+  /* gap: calc(100%/40); */
+}
+.card{
+  display: flex;
+  align-items: center;
+  
+  width: 30%;
+  background-color: rgb(235, 235, 235);
+  padding: 1vh;
+  border-radius: 10px;
+  margin: calc(100%/80);
+  img{
+    max-width: 50%;
+    max-height: 60%;
+  }
+  h2{
+    font-weight: 800;
+  }
+}
