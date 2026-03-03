@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import Productos from './pages/Productos';
-
+import Login from '../src/pages/login';
+import ProtectedRoute from './components/layout/protectedRoute';
 const Dashboard = () => (
   <div>
     <h1 className="text-3xl font-bold text-slate-800">Dashboard</h1>
@@ -11,17 +12,25 @@ const Dashboard = () => (
 
 function App() {
   return (
+   
     <BrowserRouter>
-      {/* El Layout envuelve todas las rutas */}
-      <Layout>
-        <Routes>
-          {/* Redireccionar raíz a dashboard */}
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/productos" element={<Productos />} />
+      <Routes>
+        <Route path="/login" element= {<Login />}></Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path='/*' element={
+              <Layout>
+                <Routes>
+                  {/* Redireccionar raíz a dashboard */}
+                  <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/productos" element={<Productos />} />
+                </Routes>
+              </Layout>
+          }/>
+        </Route>
+      
+        {/* El Layout envuelve todas las rutas */}
         </Routes>
-      </Layout>
     </BrowserRouter>
   );
 }
