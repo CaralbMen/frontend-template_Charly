@@ -27,7 +27,7 @@ export const api = {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': token?`Bearer ${token}`: ''
+          'Authorization': token ? `Bearer ${token}`: ''
          },
         // Memorizar la cabecera Authorization: `Bearer ${token}`
         body: JSON.stringify(body)

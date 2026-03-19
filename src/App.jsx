@@ -30,7 +30,7 @@ function App() {
         </Route>
       
         {/* El Layout envuelve todas las rutas */}
-        </Routes>
+      </Routes>
     </BrowserRouter>
   );
 }
