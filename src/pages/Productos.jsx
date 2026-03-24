@@ -1,5 +1,7 @@
 import {api} from '../services/api';
 import { useState, useEffect } from 'react';
+import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const Productos= ()=>{
     const [listaProductos, setListaProductos]= useState([]);
@@ -13,8 +15,10 @@ const Productos= ()=>{
         const imagen= document.getElementById('imagen').value;
         const categoria= document.getElementById('categoria').value;
         const youtube_id= document.getElementById('id_youtube').value;
+        const latitud= document.getElementById('latitud').value;
+        const longitud= document.getElementById('longitud').value;
 
-        const resultado= await api.post('productos/crear', {nombre:nombre, precio: precio, stock: stock, descripcion: descripcion, imagen: imagen, categoria: categoria, youtube_id: youtube_id});
+        const resultado= await api.post('productos/crear', {nombre:nombre, precio: precio, stock: stock, descripcion: descripcion, imagen: imagen, categoria: categoria, youtube_id: youtube_id, latitud: latitud, longitud: longitud});
         console.log(resultado);
         alert(resultado.mensaje);
     }
@@ -64,6 +68,10 @@ const Productos= ()=>{
                     <br /><label>Id de Youtube</label>
                     <input type="text" placeholder='Id_Youtube' id='id_youtube' />
 
+                    <br /><label>Latitud</label>
+                    <input type="number" placeholder='Latitud' id='latitud'/>
+                    <br /><label>Longitud</label>
+                    <input type="number" placeholder='Longitud' id='longitud'/>
                     <br /><br />
                     <button className='guardar' onClick={guardarProducto}>Guardar</button>
                 </div>
@@ -91,7 +99,24 @@ const Productos= ()=>{
                                     <p>Stock: {producto.stock}</p>
 
                                    
-                                </center>
+                                
+                                <div className='h-48 w-full border-t border-slate-100 z-0 relative'>
+                                    <MapContainer 
+                                        center={[producto.latitud|| 20.5441704, producto.longitud|| -100.2757814]} 
+                                        zoom={13} scrollWheelZoom={false} 
+                                        style={{height: '100%', width: '100%', zIndex:0 }}>
+                                        <TileLayer
+                                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                            attribution='&copy; OpenStreetMap'
+                                        />
+                                        <Marker position={[producto.latitud|| 20.5441704, producto.longitud|| -100.2757814]}>
+                                            <Popup>
+                                                Ubicacion de:<br/><strong>{producto.nombre}</strong>
+                                            </Popup>
+                                        </Marker>
+                                    </MapContainer>
+                                </div>
+                                    </center>
                             </div>
                             
                         ))}
