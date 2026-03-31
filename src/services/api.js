@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:4000/api/"; // Importante colocar la url de tu api
-
+//const API_URL = "http://localhost:4000/api/"; // Importante colocar la url de tu api
+const API_URL= "https://apps-web-oriendatas-a-servicios.onrender.com/api/";
 export const api = {
   get: async (endpoint) => {
     const token= localStorage.getItem('token');
